@@ -14,7 +14,7 @@
         >
           <div class="title-bar">
             <img class="logo" src="../assets/logo.svg" />
-            <div class="title">Sea-OJ</div>
+            <div class="title">Jar-OJ</div>
           </div>
         </a-menu-item>
         <a-menu-item v-for="item in routes" :key="item.path">
