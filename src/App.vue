@@ -1,17 +1,18 @@
 <template>
   <div id="app">
-    <BasicLayout />
+    <template v-if="route.path.startsWith('/user')">
+      <router-view />
+    </template>
+    <template v-else>
+      <BasicLayout />
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
 import BasicLayout from "@/layouts/BasicLayout";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
 import { onMounted } from "vue";
-
-const store = useStore();
-const router = useRouter();
+import { useRoute } from "vue-router";
 
 /**
  * 初始化代码写在下面的函数中
@@ -23,15 +24,8 @@ const doInit = () => {
 onMounted(() => {
   doInit();
 });
-router.beforeEach((to, from, next) => {
-  if (to.meta?.access === "canAdmin") {
-    if (store.state.user?.loginUser?.userRole !== "admin") {
-      next("/noAuth");
-      return;
-    }
-  }
-  next();
-});
+
+const route = useRoute();
 </script>
 
 <style></style>

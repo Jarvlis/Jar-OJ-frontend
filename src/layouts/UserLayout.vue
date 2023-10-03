@@ -1,8 +1,12 @@
+<!--suppress ALL -->
 <template>
-  <div id="basicLayout">
+  <div id="userLayout">
     <a-layout style="min-height: 100vh">
       <a-layout-header class="header">
-        <GlobalHeader />
+        <a-space>
+          <img src="../assets/logo.svg" class="logo" />
+          <div class="title">Jar-OJ</div>
+        </a-space>
       </a-layout-header>
       <a-layout-content class="content">
         <router-view />
@@ -14,31 +18,34 @@
   </div>
 </template>
 
-<script>
-import GlobalHeader from "@/components/GlobalHeader";
-
-export default {
-  components: { GlobalHeader },
-};
-</script>
+<script setup lang="ts"></script>
 
 <style scoped>
-#basicLayout {
+#userLayout {
+  text-align: center;
+  background: url("https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png")
+    0% 0% / 100% 100%;
 }
 
-#basicLayout .header {
+#userLayout .header {
+  margin-top: 16px;
 }
 
-#basicLayout .content {
+#userLayout .content {
+  margin-bottom: 16px;
   padding: 20px;
 }
 
-#basicLayout .footer {
+#userLayout .footer {
   padding: 16px;
   position: sticky;
   bottom: 0;
   left: 0;
   right: 0;
   text-align: center;
+}
+
+#userLayout .title {
+  font-size: 36px;
 }
 </style>
