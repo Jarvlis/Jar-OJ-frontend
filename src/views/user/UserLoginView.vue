@@ -12,7 +12,7 @@
         <a-input
           v-model="form.userAccount"
           placeholder="请输入用户账号"
-          max-length="8"
+          :max-length="8"
         />
       </a-form-item>
       <a-form-item field="userPassword" tooltip="密码不少于8位" label="密码">

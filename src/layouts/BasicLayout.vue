@@ -35,7 +35,6 @@ export default {
 
 #basicLayout .footer {
   padding: 16px;
-  position: sticky;
   bottom: 0;
   left: 0;
   right: 0;
