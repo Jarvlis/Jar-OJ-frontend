@@ -52,7 +52,7 @@ onMounted(() => {
     language: props.language,
     automaticLayout: true,
     minimap: {
-      enabled: true,
+      enabled: false,
     },
     readOnly: false,
     theme: "vs-dark",

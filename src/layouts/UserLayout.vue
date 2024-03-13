@@ -12,7 +12,10 @@
         <router-view />
       </a-layout-content>
       <a-layout-footer class="footer">
-        <a href="http://jarvlis.top" target="_blank"> 森海的blog </a>
+        森海的其它项目:
+        <a href="http://book.jarvlis.top" target="_blank" class="footStyle">
+          图书信息平台
+        </a>
       </a-layout-footer>
     </a-layout>
   </div>
@@ -47,5 +50,10 @@
 
 #userLayout .title {
   font-size: 36px;
+}
+
+.footStyle {
+  text-decoration: none;
+  colot: black;
 }
 </style>

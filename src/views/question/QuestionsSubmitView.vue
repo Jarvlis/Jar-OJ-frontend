@@ -6,7 +6,7 @@
           <a-input v-model="searchParams.questionId" placeholder="请输入" />
         </a-form-item>
 
-        <a-form-item field="language" label="编程语言" style="min-width: 240px">
+        <a-form-item field="language" label="编程语言" style="min-width: 200px">
           <a-select
             v-model="searchParams.language"
             :style="{ width: '320px' }"
@@ -18,10 +18,16 @@
             <a-option>javascript</a-option>
           </a-select>
         </a-form-item>
+
+        <a-form-item>
+          <a-button type="primary" @click="doSearch">搜索</a-button>
+        </a-form-item>
+
+        <a-form-item>
+          <a-button type="secondary" @click="loadData">刷新数据</a-button>
+        </a-form-item>
+        <span class="infoRefresh">(每分钟自动刷新一次) </span>
       </a-form>
-      <a-form-item>
-        <a-button type="primary" @click="doSearch">搜索</a-button>
-      </a-form-item>
     </a-form>
     <a-divider size="0" />
     <a-table
@@ -38,6 +44,28 @@
       <template #judgeInfo="{ record }">
         {{ JSON.stringify(record.judgeInfo) }}
       </template>
+      <template #timeInfo="{ record }">
+        {{ record.judgeInfo.memory || 0 }}
+      </template>
+      <template #memoryInfo="{ record }">
+        {{ record.judgeInfo.time || 0 }}
+      </template>
+      <template #judgeRes="{ record }">
+        <span
+          :style="{
+            color: record.judgeInfo.message === 'Accepted' ? 'green' : 'red',
+          }"
+        >
+          {{ record.judgeInfo.message || "Info Lack" }}
+        </span>
+      </template>
+      <template #userId="{ record }">
+        {{
+          record.judgeInfo.userId === loginUser.userId
+            ? "我"
+            : record.judgeInfo.userId
+        }}
+      </template>
       <template #createTime="{ record }">
         {{ moment(record.createTime).format("YYYY-MM-DD") }}
       </template>
@@ -46,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watchEffect } from "vue";
+import { onMounted, onUnmounted, ref, watchEffect } from "vue";
 import {
   Question,
   QuestionControllerService,
@@ -55,6 +83,7 @@ import {
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import moment from "moment";
+import store from "@/store";
 
 const total = ref(0);
 const dataList = ref([]);
@@ -64,6 +93,8 @@ const searchParams = ref<QuestionSubmitQueryRequest>({
   questionId: undefined,
   language: undefined,
 });
+
+const loginUser = store.state.user.loginUser;
 
 const loadData = async () => {
   const res = await QuestionControllerService.listQuestionSubmitByPageUsingPost(
@@ -82,18 +113,20 @@ const loadData = async () => {
 };
 const router = useRouter();
 
-const toQuestionPage = (question: Question) => {
-  router.push({
-    path: `/view/question/${question.id}`,
-  });
-};
-
 /**
  * 监听searchParams变化
  * 加载数据
  */
 watchEffect(() => {
   loadData();
+});
+
+const refresh = setInterval(() => {
+  loadData();
+}, 60000);
+
+onUnmounted(() => {
+  clearInterval(refresh);
 });
 
 const onPageChange = (page: number) => {
@@ -124,20 +157,28 @@ const columns = [
     dataIndex: "language",
   },
   {
-    title: "判题信息",
-    slotName: "judgeInfo",
+    title: "判题结果",
+    slotName: "judgeRes",
+  },
+  {
+    title: "内存消耗",
+    slotName: "memoryInfo",
+  },
+  {
+    title: "时间消耗",
+    slotName: "timeInfo",
   },
   {
     title: "判题状态",
     dataIndex: "status",
   },
   {
-    title: "题目 id",
+    title: "题目 ID",
     dataIndex: "questionId",
   },
   {
-    title: "提交者 id",
-    dataIndex: "userId",
+    title: "提交者 ID",
+    slotName: "userId",
   },
   {
     title: "创建时间",
@@ -150,5 +191,11 @@ const columns = [
 #questionSubmitView {
   max-width: 1280px;
   margin: 0 auto;
+}
+
+.infoRefresh {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

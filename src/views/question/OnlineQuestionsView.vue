@@ -61,7 +61,12 @@
           :handle-change="changeCode"
         />
         <a-divider size="0" />
-        <a-button type="primary" @click="doSubmit" style="min-width: 200px"
+        <a-button
+          :status="btnStatus"
+          type="primary"
+          @click="doSubmit"
+          style="min-width: 200px"
+          :loading="loadingSubmit"
           >提交代码
         </a-button>
       </a-col>
@@ -79,6 +84,7 @@ import {
 import message from "@arco-design/web-vue/es/message";
 import CodeEditor from "@/components/CodeEditor.vue";
 import MdViewer from "@/components/MdViewer.vue";
+import useState from "@arco-design/web-vue/es/_hooks/use-state";
 
 const question = ref<QuestionVO>();
 
@@ -89,6 +95,9 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   id: () => "",
 });
+
+const [loadingSubmit, setLoadingSubmit] = useState(false);
+const [btnStatus, setBtnStatus] = useState("");
 
 const loadData = async () => {
   const res = await QuestionControllerService.getQuestionVoByIdUsingGet(
@@ -113,12 +122,16 @@ const doSubmit = async () => {
   if (!question.value?.id) {
     return;
   }
+  setLoadingSubmit(true);
   const res = await QuestionControllerService.doQustionSubmitUsingPost({
     ...form.value,
     questionId: question.value.id,
   });
   if (res.code === 0) {
+    console.log(res);
     message.success("提交成功");
+    setLoadingSubmit(false);
+    setBtnStatus("success");
   } else {
     message.error("提交失败" + res.message);
   }

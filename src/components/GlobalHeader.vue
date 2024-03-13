@@ -23,7 +23,11 @@
       </a-menu>
     </a-col>
     <a-col flex="100px">
-      <div>{{ store.state.user?.loginUser?.userName ?? "未登录" }}</div>
+      <div>
+        <a-avatar :style="{ backgroundColor: '#3370ff' }">
+          {{ store.state.user?.loginUser?.userName ?? "未登录" }}
+        </a-avatar>
+      </div>
     </a-col>
   </a-row>
 </template>
@@ -34,14 +38,13 @@ import { useRouter } from "vue-router";
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import CheckAccess from "@/access/checkAccess";
-import ACCESS_ENUM from "@/access/accessEnum";
 
 const router = useRouter();
 const store = useStore();
 const loginUser = store.state.user.loginUser;
 
 const visibleMenu = computed(() => {
-  return routes.filter((item, index) => {
+  return routes.filter((item) => {
     if (item.meta?.hideInMenu) {
       return false;
     }
@@ -59,11 +62,6 @@ const selectedKeys = ref(["/"]);
 // 路由跳转后，更新选中的菜单项
 router.afterEach((to, from, failure) => {
   selectedKeys.value = [to.path];
-});
-
-store.dispatch("user/getLoginUser", {
-  userName: "森海",
-  userRole: ACCESS_ENUM.ADMIN,
 });
 
 const doMenuClick = (key: string) => {

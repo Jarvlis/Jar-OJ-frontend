@@ -4,7 +4,7 @@ import { UserControllerService } from "../../generated";
 
 export default {
   namespaced: true,
-  // initial state
+  // state
   state: () => ({
     loginUser: {
       userName: "未登录",
@@ -14,7 +14,6 @@ export default {
   // actions
   actions: {
     async getLoginUser({ commit, state }) {
-      // todo 发送请求获取远程登录信息
       const res = await UserControllerService.getLoginUserUsingGet();
       if (res.code === 0) {
         commit("updateUser", res.data);
