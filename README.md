@@ -31,7 +31,9 @@ openapi --input http://localhost:8121/api/v2/api-docs --output ./generated --cli
 
 ### 项目时序图
 (消息队列暂时未加入项目中, 过阵子会将RabbitMQ加入, 并且增设C++ 、 Python 、 JavaScript语言支持， 最后将项目改造为微服务)
-![yuque_diagram](https://github.com/Jarvlis/Jar-OJ-frontend/assets/96105888/2ee5d5d9-d69a-4408-83a9-f385a9aee039)
+
+![yuque_diagram (1)](https://github.com/Jarvlis/Jar-OJ-frontend/assets/96105888/8e640a87-3798-40b0-a0ba-ab7afc38eb91)
+
 
 
 ### 项目待扩展点
