@@ -3,7 +3,7 @@
     <div
       class="code-editor"
       ref="codeEditorRef"
-      style="min-height: 600px; height: 80vh"
+      style="min-height: 600px; height: 70vh"
     ></div>
   </div>
 </template>

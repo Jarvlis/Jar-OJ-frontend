@@ -16,4 +16,8 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 </script>
 
-<style></style>
+<style>
+#app {
+  background: url("./assets/background.jpg") 0 0 / 100% 100%;
+}
+</style>

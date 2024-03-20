@@ -26,6 +26,10 @@ export default {
 </script>
 
 <style scoped>
+.header {
+  background: inherit;
+}
+
 #basicLayout .content {
   padding: 20px;
 }

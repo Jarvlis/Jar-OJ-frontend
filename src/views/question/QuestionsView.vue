@@ -11,7 +11,7 @@
         <a-button type="primary" @click="doSearch">搜索</a-button>
       </a-form-item>
     </a-form>
-    <a-divider size="0" />
+    <a-divider :size="0" />
     <a-table
       :columns="columns"
       :data="dataList"

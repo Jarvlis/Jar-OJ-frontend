@@ -1,35 +1,46 @@
 <template>
-  <a-row id="globalHeader" align="center" class="header" :wrap="false">
-    <a-col flex="auto">
-      <a-menu
-        mode="horizontal"
-        :selected-keys="selectedKeys"
-        :default-selected-keys="['1']"
-        @menu-item-click="doMenuClick"
-      >
-        <a-menu-item
-          key="0"
-          :style="{ padding: 0, marginRight: '38px' }"
-          disabled
+  <div id="header">
+    <a-row id="globalHeader" align="center" class="header" :wrap="false">
+      <a-col flex="auto">
+        <a-menu
+          mode="horizontal"
+          :selected-keys="selectedKeys"
+          :default-selected-keys="['1']"
+          @menu-item-click="doMenuClick"
+          :style="{ background: 'transparent' }"
         >
-          <div class="title-bar">
-            <img class="logo" src="../assets/logo.svg" />
-            <div class="title">Jar-OJ</div>
-          </div>
-        </a-menu-item>
-        <a-menu-item v-for="item in visibleMenu" :key="item.path">
-          {{ item.name }}
-        </a-menu-item>
-      </a-menu>
-    </a-col>
-    <a-col flex="100px">
-      <div>
-        <a-avatar :style="{ backgroundColor: '#3370ff' }">
-          {{ store.state.user?.loginUser?.userName ?? "未登录" }}
-        </a-avatar>
-      </div>
-    </a-col>
-  </a-row>
+          <a-menu-item
+            key="0"
+            :style="{
+              padding: 0,
+              marginRight: '38px',
+              background: 'transparent',
+            }"
+            disabled
+          >
+            <div class="title-bar">
+              <img class="logo" src="../assets/logo.svg" />
+              <div class="title">Jar-OJ</div>
+            </div>
+          </a-menu-item>
+          <a-menu-item
+            v-for="item in visibleMenu"
+            :key="item.path"
+            :style="{ background: 'transparent' }"
+          >
+            {{ item.name }}
+          </a-menu-item>
+        </a-menu>
+      </a-col>
+      <a-col flex="100px">
+        <div>
+          <a-avatar :style="{ backgroundColor: '#3370ff' }">
+            {{ store.state.user?.loginUser?.userName ?? "未登录" }}
+          </a-avatar>
+        </div>
+      </a-col>
+    </a-row>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -41,9 +52,10 @@ import CheckAccess from "@/access/checkAccess";
 
 const router = useRouter();
 const store = useStore();
-const loginUser = store.state.user.loginUser;
+let loginUser = store.state.user.loginUser;
 
 const visibleMenu = computed(() => {
+  loginUser = store.state.user.loginUser;
   return routes.filter((item) => {
     if (item.meta?.hideInMenu) {
       return false;
@@ -86,5 +98,9 @@ const doMenuClick = (key: string) => {
   font-size: 36px;
   margin-left: 15px;
   color: #0073ce;
+}
+
+#header {
+  background: inherit;
 }
 </style>
