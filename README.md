@@ -1,6 +1,8 @@
 # Jar-OJ-frontend
 Jar-OJ 前端部分
 
+体验地址: [https://oj.jarvlis.top](https://oj.jarvlis.top) (服务器带宽有限，做题页面，代码编辑器的加载约5s)
+
 🚀 前端基于 Vue 3 + Arco Design + TypeScript 搭建的在线判题系统。系统可根据管理员发布的题目和预设的判题用例，将用户提交的代码执行与评测。
 
 🚀 后端基于 Java8 + SpringBoot + MyBatis-Plus + Docker 搭建的在线判题系统。系统提供了单独调用自主实现的代码沙箱的接口，系统可根据管理员发布的题目和预设的判题用例，将用户提交的代码执行与评测。
