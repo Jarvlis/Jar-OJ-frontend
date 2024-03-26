@@ -9,9 +9,37 @@
 </template>
 
 <script setup lang="ts">
-import * as monaco from "monaco-editor";
 import { onMounted, ref, watch } from "vue";
 import { defineProps, withDefaults, toRaw } from "vue";
+
+let monaco: any = null;
+
+// 引入语言高亮模块
+const highlightLang = async () => {
+  const promiseList = [
+    import(
+      /* webpackPrefetch: true;" */ "monaco-editor/esm/vs/basic-languages/java/java.contribution"
+    ),
+    import(
+      /* webpackPrefetch: true;" */ "monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution"
+    ),
+    // import(
+    //   /* webpackPrefetch: true;" */ "monaco-editor/esm/vs/basic-languages/python/python.contribution"
+    // ),
+    // import(
+    //   /* webpackPrefetch: true;" */ "monaco-editor/esm/vs/basic-languages/cpp/cpp.contribution"
+    // ),
+  ];
+  return Promise.all(promiseList);
+};
+
+const initEditor = async () => {
+  monaco = await import(
+    /* webpackPrefetch: true;" */ "monaco-editor/esm/vs/editor/editor.api.js"
+  );
+  // 引入高亮模块
+  await highlightLang();
+};
 
 const codeEditor = ref();
 const codeEditorRef = ref();
@@ -43,7 +71,8 @@ watch(
   }
 );
 
-onMounted(() => {
+onMounted(async () => {
+  await initEditor();
   if (!codeEditorRef.value) {
     return;
   }

@@ -23,7 +23,7 @@ export const OpenAPI: OpenAPIConfig = {
   BASE:
     process.env.NODE_ENV === "development"
       ? "http://localhost:8121"
-      : "http://oj.jarvlis.top",
+      : "https://oj.jarvlis.top:8121",
   VERSION: "1.0",
   WITH_CREDENTIALS: true,
   CREDENTIALS: "include",

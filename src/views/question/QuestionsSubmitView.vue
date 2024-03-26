@@ -13,9 +13,9 @@
         >
           <a-option>全部</a-option>
           <a-option>java</a-option>
-          <a-option>python(暂不支持)</a-option>
-          <a-option>cpp(暂不支持)</a-option>
-          <a-option>javascript(暂不支持)</a-option>
+          <a-option>python(暂不支持提交)</a-option>
+          <a-option>cpp(暂不支持提交)</a-option>
+          <a-option>javascript(暂不支持提交)</a-option>
         </a-select>
       </a-form-item>
 
@@ -47,15 +47,24 @@
         {{ record.judgeInfo.memory || 0 }}kb
       </template>
       <template #status="{ record }">
-        {{ (record.status === 1 && "判题结束") || "判题结束" }}
+        {{ (record.status === 1 && "判题中") || "判题结束" }}
       </template>
       <template #judgeRes="{ record }">
         <span
           :style="{
-            color: record.judgeInfo.message === 'Accepted' ? 'green' : 'red',
+            color:
+              record.judgeInfo.message === 'Accepted'
+                ? 'green'
+                : record.judgeInfo.message === 'Pending'
+                ? 'grey'
+                : 'red',
           }"
         >
-          {{ record.judgeInfo.message || "Compile Error" }}
+          {{
+            record.status === 2
+              ? record.judgeInfo.message
+              : ResponseResult[record.status]
+          }}
         </span>
       </template>
       <template #userId="{ record }">
@@ -66,7 +75,11 @@
         }}
       </template>
       <template #createTime="{ record }">
-        {{ moment(record.createTime).format("YYYY-MM-DD hh:mm:ss") }}
+        {{
+          dayjs(record.createTime)
+            .subtract(8, "hour")
+            .format("YYYY-MM-DD HH:mm:ss")
+        }}
       </template>
     </a-table>
   </div>
@@ -75,14 +88,17 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watchEffect } from "vue";
 import {
-  Question,
   QuestionControllerService,
   QuestionSubmitQueryRequest,
 } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
-import moment from "moment";
 import store from "@/store";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import ResponseResult from "@/constant/ResponseResult";
+
+dayjs.extend(utc);
 
 const total = ref(0);
 const dataList = ref([]);
@@ -127,9 +143,9 @@ setTimeout(() => {
   loadData();
 }, 3000);
 
-const refresh = setTimeout(() => {
+const refresh = setInterval(() => {
   loadData();
-}, 10000);
+}, 5000);
 
 onUnmounted(() => {
   clearInterval(refresh);

@@ -105,10 +105,6 @@ const columns = [
     dataIndex: "tags",
   },
   {
-    title: "答案",
-    dataIndex: "answer",
-  },
-  {
     title: "提交数",
     dataIndex: "submitNum",
   },
@@ -117,20 +113,8 @@ const columns = [
     dataIndex: "acceptedNum",
   },
   {
-    title: "判题配置",
-    dataIndex: "judgeConfig",
-  },
-  {
-    title: "判题用例",
-    dataIndex: "judgeCase",
-  },
-  {
-    title: "用户id",
+    title: "创建人ID",
     dataIndex: "userId",
-  },
-  {
-    title: "创建时间",
-    dataIndex: "createTime",
   },
   {
     title: "操作",

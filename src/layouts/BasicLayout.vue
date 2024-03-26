@@ -8,7 +8,7 @@
         <router-view />
       </a-layout-content>
       <a-layout-footer class="footer">
-        森海的其它项目
+        森海的其它项目:
         <a href="http://book.jarvlis.top" target="_blank" class="footStyle">
           图书信息平台
         </a>

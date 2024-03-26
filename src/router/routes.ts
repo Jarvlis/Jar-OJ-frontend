@@ -1,13 +1,17 @@
 import { RouteRecordRaw } from "vue-router";
-import QuestionsView from "@/views/question/QuestionsView.vue";
-import QuestionsSubmitView from "@/views/question/QuestionsSubmitView.vue";
-import UserLayout from "@/layouts/UserLayout.vue";
-import UserLoginView from "@/views/user/UserLoginView.vue";
-import AddQuestionView from "@/views/question/AddQuestionView.vue";
-import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
-import UserRegisterView from "@/views/user/UserRegisterView.vue";
-import OnlineQuestionsView from "@/views/question/OnlineQuestionsView.vue";
-import NoAuth from "@/views/NoAuth.vue";
+
+const QuestionsView = () => import("@/views/question/QuestionsView.vue");
+const QuestionsSubmitView = () =>
+  import("@/views/question/QuestionsSubmitView.vue");
+const UserLayout = () => import("@/layouts/UserLayout.vue");
+const UserLoginView = () => import("@/views/user/UserLoginView.vue");
+const AddQuestionView = () => import("@/views/question/AddQuestionView.vue");
+const ManageQuestionView = () =>
+  import("@/views/question/ManageQuestionView.vue");
+const UserRegisterView = () => import("@/views/user/UserRegisterView.vue");
+const OnlineQuestionsView = () =>
+  import("@/views/question/OnlineQuestionsView.vue");
+const NoAuth = () => import("@/views/NoAuth.vue");
 import ACCESS_ENUM from "@/access/accessEnum";
 
 export const routes: Array<RouteRecordRaw> = [
@@ -40,6 +44,9 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/questions_submit",
     name: "浏览提交",
     component: QuestionsSubmitView,
+    meta: {
+      access: ACCESS_ENUM.USER,
+    },
   },
   {
     path: "/",

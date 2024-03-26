@@ -86,14 +86,13 @@ import {
 import message from "@arco-design/web-vue/es/message";
 import CodeEditor from "@/components/CodeEditor.vue";
 import MdViewer from "@/components/MdViewer.vue";
-import useState from "@arco-design/web-vue/es/_hooks/use-state";
 import { throttle } from "@/utils/tools";
 import { javaTemolates } from "@/codeTemplate/codeTemolates";
-import router from "@/router";
+import { useRouter } from "vue-router";
 
 const question = ref<QuestionVO>();
 
-const loading = ref(false);
+const router = useRouter();
 
 interface Props {
   id: string;
@@ -103,8 +102,11 @@ const props = withDefaults(defineProps<Props>(), {
   id: () => "",
 });
 
-const [loadingSubmit, setLoadingSubmit] = useState(false);
-const [btnStatus, setBtnStatus] = useState("");
+let loadingSubmit = ref(false);
+
+let btnStatus = ref("normal");
+
+const loading = ref(false);
 
 const loadData = async () => {
   const res = await QuestionControllerService.getQuestionVoByIdUsingGet(
@@ -139,23 +141,27 @@ const doSubmit = async () => {
   if (!question.value?.id) {
     return;
   }
-  setLoadingSubmit(true);
   loading.value = true;
+  loadingSubmit.value = true;
   const res = await QuestionControllerService.doQustionSubmitUsingPost({
     ...form.value,
     questionId: question.value.id,
   });
   if (res.code === 0) {
     message.success("提交成功");
-    loading.value = false;
-    router.push("/questions_submit");
+    btnStatus.value = "success";
+    router.push({
+      path: "/questions_submit",
+    });
   } else {
     message.error("提交失败" + res.message);
-    setBtnStatus("false");
+    btnStatus.value = "danger";
   }
+  loadingSubmit.value = false;
+  loading.value = false;
 };
 
-const throttleSubmit = throttle(doSubmit, 1000);
+const throttleSubmit = throttle(doSubmit, 2000);
 
 const changeCode = (code: string) => {
   form.value.code = code;

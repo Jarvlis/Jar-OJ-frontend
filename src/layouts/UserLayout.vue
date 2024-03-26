@@ -4,7 +4,7 @@
     <a-layout style="min-height: 100vh">
       <a-layout-header class="header">
         <a-space>
-          <img src="../assets/logo.svg" class="logo" />
+          <img src="../assets/logo.svg" class="logo" alt="SVG Image" />
           <div class="title">Jar-OJ</div>
         </a-space>
       </a-layout-header>
@@ -13,7 +13,7 @@
       </a-layout-content>
       <a-layout-footer class="footer">
         森海的其它项目:
-        <a href="http://book.jarvlis.top" target="_blank" class="footStyle">
+        <a href="https://book.jarvlis.top" target="_blank" class="footStyle">
           图书信息平台
         </a>
       </a-layout-footer>

@@ -38,7 +38,11 @@
         }}
       </template>
       <template #createTime="{ record }">
-        {{ moment(record.createTime).format("YYYY-MM-DD") }}
+        {{
+          dayjs(record.createTime)
+            .subtract(8, "hour")
+            .format("YYYY-MM-DD HH:mm:ss")
+        }}
       </template>
       <template #optional="{ record }">
         <a-space>
@@ -60,8 +64,10 @@ import {
 } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
-import moment from "moment";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 
+dayjs.extend(utc);
 const total = ref(0);
 const dataList = ref([]);
 const searchParams = ref<QuestionQueryRequest>({

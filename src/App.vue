@@ -18,6 +18,6 @@ const route = useRoute();
 
 <style>
 #app {
-  background: url("./assets/background.jpg") 0 0 / 100% 100%;
+  background-image: url("./assets/background.jpg"), url("./assets/miniBg.jpg");
 }
 </style>
